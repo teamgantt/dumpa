@@ -26,7 +26,8 @@
                   ["vcs" "commit"]
                   ["vcs" "push"]]
 
-  :deploy-repositories [["releases"  {:sign-releases false :url "https://clojars.org"}]
+  :deploy-repositories [["clojars" {:sign-releases false :url "https://clojars.org"}]
+                        ["releases"  {:sign-releases false :url "https://clojars.org"}]
                         ["snapshots" {:sign-releases false :url "https://clojars.org"}]]  
 
   :profiles {:dev {:source-paths ["config" "dev"]
