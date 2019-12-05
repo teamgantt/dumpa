@@ -1,7 +1,7 @@
-(ns dumpr.binlog
-  (:require [clojure.core.async :as async :refer [chan >!!]]
+(ns dumpa.binlog
+  (:require [clojure.core.async :as async :refer [>!!]]
             [clojure.tools.logging :as log]
-            [dumpr.query :as query])
+            [dumpa.query :as query])
   (:import [com.github.shyiko.mysql.binlog
             BinaryLogClient
             BinaryLogClient$EventListener

@@ -1,9 +1,9 @@
-(ns dumpr.query
+(ns dumpa.query
   "Functions to query data from MySQL and parse the query results."
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.core.async :as async :refer [>!!]]
             [clojure.tools.logging :as log]
-            [dumpr.row-format :as row-format]))
+            [dumpa.row-format :as row-format]))
 
 
 (defn db-spec

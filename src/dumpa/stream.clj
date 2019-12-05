@@ -1,16 +1,16 @@
-(ns dumpr.stream
+(ns dumpa.stream
   "Transformations for the stream of parsed binlog events."
   (:require [clojure.core.async :as async :refer [go go-loop <! >! thread chan]]
             [schema.core :as s]
-            [dumpr.table-schema :as table-schema]
+            [dumpa.table-schema :as table-schema]
             [clojure.tools.logging :as log]
             [manifold.stream]
-            [dumpr.query :as query]
-            [dumpr.utils :as utils]
-            [dumpr.row-format :as row-format]
-            [dumpr.events :as events]
-            [dumpr.binlog :as binlog]
-            [dumpr.table-schema :as table-schema]))
+            [dumpa.query :as query]
+            [dumpa.utils :as utils]
+            [dumpa.row-format :as row-format]
+            [dumpa.events :as events]
+            [dumpa.binlog :as binlog]
+            [dumpa.table-schema :as table-schema]))
 
 (defn- preserving-reduced
   [rf]

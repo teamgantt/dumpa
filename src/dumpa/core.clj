@@ -1,17 +1,17 @@
-(ns dumpr.core
-  "Dumpr API for consuming MySQL database contents as streams of
+(ns dumpa.core
+  "dumpa API for consuming MySQL database contents as streams of
   updates."
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.core.async :as async :refer [chan >!!]]
             [schema.core :as s]
             [clojure.tools.logging :as log]
             [manifold.stream]
-            [dumpr.query :as query]
-            [dumpr.table-schema :as table-schema]
-            [dumpr.events :as events]
-            [dumpr.stream :as stream]
-            [dumpr.binlog :as binlog]
-            [dumpr.row-format :as row-format]))
+            [dumpa.query :as query]
+            [dumpa.table-schema :as table-schema]
+            [dumpa.events :as events]
+            [dumpa.stream :as stream]
+            [dumpa.binlog :as binlog]
+            [dumpa.row-format :as row-format]))
 
 (def #^:private conn-param-defaults
   {:stream-keepalive-interval 60000
@@ -30,7 +30,7 @@
 
 (defn- validate-conf [conf]
   (when-let [err (s/check ConfSchema conf)]
-    (throw (ex-info "Invalid dumpr configuration."
+    (throw (ex-info "Invalid dumpa configuration."
                     {:validation-errs err}))))
 
 (defn create-conf
@@ -43,7 +43,7 @@
   :host - Database host
   :port - Database port
   :db   - The name of the database. You can stream exactly one db.
-  :server-id - Unique id in mysql cluster. Dumpr is a replication slave
+  :server-id - Unique id in mysql cluster. dumpa is a replication slave
   :stream-keepalive-interval - Frequency for attempting to
    re-establish a lost connection. Defaults to 1 minute.
   :stream-keepalive-timeout - Timeout for an attempt to restore

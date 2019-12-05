@@ -1,4 +1,4 @@
-(ns dumpr.utils)
+(ns dumpa.utils)
 
 (defn retry
   "Run the given function. If it throws, retry. Provide optional

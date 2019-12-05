@@ -4,7 +4,7 @@
             [io.aviso.config :as config]
             [manifold.stream]
             [schema.core :as s]
-            [dumpr.core :as dumpr]))
+            [dumpa.core :as dumpa]))
 
 (s/defschema LibConf
   "Schema for the library configuration for dev/tests."
@@ -46,9 +46,9 @@
   component/Lifecycle
     (start [this]
       (if-not (some? (:result this))
-        (let [stream (dumpr/create-table-stream conf tables)
-              _ (dumpr/start-stream! stream)
-              out-rows (sink-source (dumpr/source stream))]
+        (let [stream (dumpa/create-table-stream conf tables)
+              _ (dumpa/start-stream! stream)
+              out-rows (sink-source (dumpa/source stream))]
           (-> this
               (assoc :stream stream)
               (assoc :out-rows out-rows)))))
@@ -66,10 +66,10 @@
   (start [this]
     (if-not (some? (:stream this))
       (let [binlog-pos (or (:binlog-pos this)
-                           (-> loader :stream dumpr/next-position))
-            stream (dumpr/create-binlog-stream conf binlog-pos (:filter-tables this))
-            out-events (sink-source (dumpr/source stream) println)]
-        (dumpr/start-stream! stream)
+                           (-> loader :stream dumpa/next-position))
+            stream (dumpa/create-binlog-stream conf binlog-pos (:filter-tables this))
+            out-events (sink-source (dumpa/source stream) println)]
+        (dumpa/start-stream! stream)
         (-> this
             (assoc :binlog-pos binlog-pos)
             (assoc :out-events out-events)
@@ -77,7 +77,7 @@
 
   (stop [this]
     (when (some? (:stream this))
-      (dumpr/stop-stream! (:stream this)))
+      (dumpa/stop-stream! (:stream this)))
     (dissoc this :stream)))
 
 (defn create-stream-continue [conf binlog-pos filter-tables]
@@ -88,7 +88,7 @@
 
 (defn with-initial-load [config]
   (let [{:keys [conn-params id-fns tables filter-tables]} config
-        conf (dumpr/create-conf conn-params id-fns)]
+        conf (dumpa/create-conf conn-params id-fns)]
     (component/system-map
      :conf conf
      :loader (create-loader conf tables)
@@ -98,7 +98,7 @@
 
 (defn only-stream [config binlog-pos]
   (let [{:keys [conn-params id-fns filter-tables]} config
-        conf (dumpr/create-conf conn-params id-fns)]
+        conf (dumpa/create-conf conn-params id-fns)]
     (component/system-map
      :conf conf
      :streamer (create-stream-continue conf binlog-pos filter-tables))))

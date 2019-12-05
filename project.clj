@@ -1,12 +1,12 @@
-(defproject org.sharetribe/dumpr "0.2.2"
+(defproject com.teamgantt/dumpa "0.0.1"
   :description "Live replicate data from a MySQL database to your own process"
-  :url "https://github.com/sharetribe/dumpr"
+  :url "https://github.com/teamgantt/dumpa"
   :license {:name "Apache License, Version 2.0"
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
   :source-paths ["src"]
 
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/core.async "0.2.374"]
+  :dependencies [[org.clojure/clojure "1.10.1"]
+                 [org.clojure/core.async "0.6.532"]
                  [org.clojure/tools.logging "0.3.1"]
                  [mysql/mysql-connector-java "5.1.39"]
                  [org.clojure/java.jdbc "0.6.1"]
@@ -14,7 +14,7 @@
                  [com.github.shyiko/mysql-binlog-connector-java "0.4.1"]
                  [manifold "0.1.2"]]
 
-  :global-vars {*warn-on-reflection* true}
+  :global-vars {*warn-on-reflection* false}
   :min-lein-version "2.5.0"
 
   :profiles {:dev {:source-paths ["config" "dev"]

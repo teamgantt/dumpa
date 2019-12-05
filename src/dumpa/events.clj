@@ -1,4 +1,4 @@
-(ns dumpr.events
+(ns dumpa.events
   "Parsing of native Binlog client event types to clojure data."
   (:import [com.github.shyiko.mysql.binlog.event
             EventType

@@ -1,5 +1,5 @@
-(ns dumpr.row-format
-  "Data format for dumpr output")
+(ns dumpa.row-format
+  "Data format for dumpa output")
 
 
 ;; Abstract Data Type for streamed rows
