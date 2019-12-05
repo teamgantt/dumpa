@@ -36,7 +36,7 @@
                         (fn [[table spec]]
                           (jdbc/create-table-ddl table
                                                  spec
-                                                 {:table-spec "ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"}))
+                                                 {:table-spec "ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;"}))
                         tables-spec)))
 
 (defn drop-test-tables!

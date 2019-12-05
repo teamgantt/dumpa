@@ -211,9 +211,16 @@
               (recur))))
       (async/close! out))))
 
-(defn- convert-text [col #^bytes val]
-  (when val
-    (String. val (java.nio.charset.Charset/forName (:character-set col)))))
+(defn- get-column-charset
+  [{:keys [character-set]}]
+  (if-some [chars (re-find #"(?i)utf8" character-set)]
+    "utf8"
+    character-set))
+
+(defn- convert-text [col ^bytes val]
+  (let [char-set (get-column-charset col)]
+    (when val
+      (String. val (java.nio.charset.Charset/forName char-set)))))
 
 (defmulti convert-type :type)
 (defmethod convert-type :tinytext   [col val] (convert-text col val))

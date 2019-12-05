@@ -43,7 +43,7 @@
       [:name :type :price_cents :description :manufacturer_id :created_at]
       %)
     (gen/tuple (gen/not-empty gen/string-alphanumeric)
-               (gen/elements ["hobla" "bobla" "nano"])
+               (gen/elements ["hobla" "bobla" "nano" "Петров"])
                gen/pos-int
                gen/string-alphanumeric
                gen/pos-int
@@ -56,7 +56,7 @@
       %)
     (gen/tuple (gen/elements wids)
                (gen/not-empty gen/string-alphanumeric)
-               (gen/elements ["hobla" "bobla" "nano"])
+               (gen/elements ["hobla" "bobla" "nano" "Петров"])
                gen/pos-int
                gen/string-alphanumeric
                (gen/elements mfids)
