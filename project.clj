@@ -5,8 +5,8 @@
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
   :source-paths ["src"]
 
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/core.async "0.2.374"]
+  :dependencies [[org.clojure/clojure "1.10.1"]
+                 [org.clojure/core.async "0.6.532"]
                  [org.clojure/tools.logging "0.3.1"]
                  [mysql/mysql-connector-java "5.1.39"]
                  [org.clojure/java.jdbc "0.6.1"]

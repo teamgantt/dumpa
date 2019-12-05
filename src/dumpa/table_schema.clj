@@ -57,7 +57,7 @@
 
 (defn load-and-parse-schemas
   [tables db-spec db id-fns]
-  (let [out         (chan 0)
+  (let [out         (chan)
         xform       (comp
                      (map #(->table-spec % id-fns))
                      (map #(s/with-fn-validation (load-schema db-spec db %))))
