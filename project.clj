@@ -16,6 +16,15 @@
 
   :global-vars {*warn-on-reflection* false}
   :min-lein-version "2.5.0"
+  
+  :release-tasks [["vcs" "assert-committed"]
+                  ["change" "version" "leiningen.release/bump-version" "release"]
+                  ["vcs" "commit"]
+                  ["vcs" "tag" "v" "--no-sign"]
+                  ["deploy"]
+                  ["change" "version" "leiningen.release/bump-version"]
+                  ["vcs" "commit"]
+                  ["vcs" "push"]]
 
   :deploy-repositories [["releases"  {:sign-releases false :url "https://clojars.org"}]
                         ["snapshots" {:sign-releases false :url "https://clojars.org"}]]  
