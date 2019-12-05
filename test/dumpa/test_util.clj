@@ -1,4 +1,4 @@
-(ns dumpr.test-util
+(ns dumpa.test-util
   (:require [clojure.java.jdbc :as jdbc]
             [clojure.core.async :as async :refer [<! >! <!! go-loop chan]]
             [io.aviso.config :as config]
@@ -6,7 +6,7 @@
             [system :refer [LibConf]]))
 
 (defn config []
-  (config/assemble-configuration {:prefix "dumpr"
+  (config/assemble-configuration {:prefix "dumpa"
                                   :profiles [:lib :test]
                                   :schemas [LibConf]}))
 

@@ -9,5 +9,5 @@ pom.xml.asc
 /.nrepl-port
 .hgignore
 .hg/
-/config/dumpr-dev-configuration.edn
-/config/dumpr-test-configuration.edn
+/config/dumpa-dev-configuration.edn
+/config/dumpa-test-configuration.edn

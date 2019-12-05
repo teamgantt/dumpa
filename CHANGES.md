@@ -5,7 +5,7 @@
 
 ### 0.2.1
 
-* Fix concurrency bug with multiple dumpr instances by fixing
+* Fix concurrency bug with multiple dumpa instances by fixing
   ->table-spec argument specs
 
 ### 0.2.0

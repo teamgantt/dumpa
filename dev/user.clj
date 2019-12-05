@@ -1,7 +1,7 @@
 (ns user
   (:require [reloaded.repl :refer [system init start stop go]]
             [system :as system :refer [LibConf]]
-            [dumpr.core :as dumpr]
+            [dumpa.core :as dumpa]
             [clojure.core.async :as async :refer [<! go-loop >! timeout]]
             [clojure.tools.logging :as log]
             [io.aviso.config :as config]
@@ -14,7 +14,7 @@
      (log/error ex "Uncaught exception on" (.getName thread)))))
 
 (defn config []
-  (config/assemble-configuration {:prefix "dumpr"
+  (config/assemble-configuration {:prefix "dumpa"
                                   :profiles [:lib :dev]
                                   :schemas [LibConf]}))
 
@@ -56,7 +56,7 @@
 
   (reloaded.repl/stop)
 
-  (dumpr/valid-binlog-pos? (:conf system) {:file "Tamma-bin.000013" :position 0})
+  (dumpa/valid-binlog-pos? (:conf system) {:file "Tamma-bin.000013" :position 0})
   )
 
 

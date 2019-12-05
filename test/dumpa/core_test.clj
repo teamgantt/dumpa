@@ -1,12 +1,12 @@
-(ns dumpr.core-test
+(ns dumpa.core-test
   (:require [clojure.test.check.generators :as gen]
             [clojure.test :as test :refer [deftest testing use-fixtures is]]
             [clojure.core.async :refer [<!!] :as async]
             [com.gfredericks.test.chuck.clojure-test :refer [checking]]
             [com.gfredericks.test.chuck :as chuck]
             [com.gfredericks.test.chuck.generators :as gen']
-            [dumpr.test-util :as test-util]
-            [dumpr.core :as dumpr])
+            [dumpa.test-util :as test-util]
+            [dumpa.core :as dumpa])
   (:import [java.util Date Calendar]))
 
 
@@ -131,19 +131,19 @@
 
 (defn- load-tables-to-coll [tables]
   (let [{:keys [conn-params]} (test-util/config)
-        conf (dumpr/create-conf conn-params {})
-        stream (dumpr/create-table-stream conf tables)
-        _ (dumpr/start-stream! stream)]
-    {:out (<!! (test-util/sink-to-coll (dumpr/source stream)))
-     :binlog-pos (dumpr/next-position stream)}))
+        conf (dumpa/create-conf conn-params {})
+        stream (dumpa/create-table-stream conf tables)
+        _ (dumpa/start-stream! stream)]
+    {:out (<!! (test-util/sink-to-coll (dumpa/source stream)))
+     :binlog-pos (dumpa/next-position stream)}))
 
 (defn- create-and-start-stream [binlog-pos tables]
   (let [{:keys [conn-params]} (test-util/config)
-        conf (dumpr/create-conf conn-params {})
+        conf (dumpa/create-conf conn-params {})
         stream (if (seq tables)
-                 (dumpr/create-binlog-stream conf binlog-pos #{:widgets :manufacturers})
-                 (dumpr/create-binlog-stream conf binlog-pos))]
-    (dumpr/start-stream! stream)
+                 (dumpa/create-binlog-stream conf binlog-pos #{:widgets :manufacturers})
+                 (dumpa/create-binlog-stream conf binlog-pos))]
+    (dumpa/start-stream! stream)
     stream))
 
 (defn- stream-to-coll-and-close
@@ -151,8 +151,8 @@
   ([stream n timeout-ms]
    (let [timeout (async/timeout timeout-ms)
          [out p] (async/alts!! [timeout
-                                (test-util/sink-to-coll (dumpr/source stream) n)])]
-     (dumpr/stop-stream! stream)
+                                (test-util/sink-to-coll (dumpa/source stream) n)])]
+     (dumpa/stop-stream! stream)
      (if (= p timeout)
        (throw (ex-info "Timeout waiting for ops in stream" {}))
        out))))

@@ -1,8 +1,8 @@
-(ns dumpr.table-schema
+(ns dumpa.table-schema
   "Parsing and manipulating the table schema"
   (:require [schema.core :as s]
             [clojure.core.async :as async :refer [chan]]
-            [dumpr.query :as query]))
+            [dumpa.query :as query]))
 
 (def Col
   {:name s/Keyword
