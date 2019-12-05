@@ -1,4 +1,4 @@
-(defproject com.teamgantt/dumpa "0.0.1"
+(defproject com.teamgantt/dumpa "0.0.1-SNAPSHOT"
   :description "Live replicate data from a MySQL database to your own process"
   :url "https://github.com/teamgantt/dumpa"
   :license {:name "Apache License, Version 2.0"
