@@ -1,5 +1,5 @@
 (ns dumpa.binlog
-  (:require [clojure.core.async :as async :refer [chan >!!]]
+  (:require [clojure.core.async :as async :refer [>!!]]
             [clojure.tools.logging :as log]
             [dumpa.query :as query])
   (:import [com.github.shyiko.mysql.binlog
