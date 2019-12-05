@@ -17,6 +17,9 @@
   :global-vars {*warn-on-reflection* false}
   :min-lein-version "2.5.0"
 
+  :deploy-repositories [["releases"  {:sign-releases false :url "https://clojars.org"}]
+                        ["snapshots" {:sign-releases false :url "https://clojars.org"}]]  
+
   :profiles {:dev {:source-paths ["config" "dev"]
                    :dependencies [[com.stuartsierra/component "0.2.3"]
                                   [reloaded.repl "0.2.0"]
