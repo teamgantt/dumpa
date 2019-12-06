@@ -1,6 +1,8 @@
 [Dumpr](https://github.com/sharetribe/dumpr) is a Clojure library for live replicating data from a MySQL
-database. *Dumpa* is a fork of dumpa that includes support for the latest version of Clojure and core.async.
-It also aims to support some bugfixes.
+database. *Dumpa* is a fork of Dumpr that includes support for the latest version of Clojure and core.async.
+
+It also fixes the following:
+* Handle `utf8mb4` column encoding (previously threw error from java.nio)
 
 It allows you to programmatically tap into the MySQL binary
 log. This is the mechanism that MySQL uses to replicate data from
