@@ -27,9 +27,9 @@
                   ["vcs" "commit"]
                   ["vcs" "push"]]
 
-  :deploy-repositories [["clojars" {:sign-releases false :url "https://repo.clojars.org"}]
-                        ["releases"  {:sign-releases false :url "https://repo.clojars.org"}]
-                        ["snapshots" {:sign-releases false :url "https://repo.clojars.org"}]]  
+  :deploy-repositories [["clojars" {:sign-releases false :url "https://repo.clojars.org" :username :env/clojars_username :password :env/clojars_password}]
+                        ["releases"  {:sign-releases false :url "https://repo.clojars.org" :username :env/clojars_username :password :env/clojars_password}]
+                        ["snapshots" {:sign-releases false :url "https://repo.clojars.org" :username :env/clojars_username :password :env/clojars_password}]]  
 
   :profiles {:dev {:source-paths ["config" "dev"]
                    :dependencies [[com.stuartsierra/component "0.2.3"]
