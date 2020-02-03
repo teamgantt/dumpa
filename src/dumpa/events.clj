@@ -137,9 +137,10 @@
      ::ev-delete-rows delete}))
 
 
-(defn parse-event [^Event payload]
+(defn parse-event
   "Parse native Binlog client event to Clojure data. Returns nil if
   the event has no parsing logic defined."
+  [^Event payload]
   (when-let [parser (-> payload
                         .getHeader
                         .getEventType
