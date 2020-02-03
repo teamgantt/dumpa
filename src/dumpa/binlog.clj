@@ -1,7 +1,6 @@
 (ns dumpa.binlog
   (:require [clojure.core.async :as async :refer [>!!]]
-            [clojure.tools.logging :as log]
-            [dumpa.query :as query])
+            [clojure.tools.logging :as log])
   (:import [com.github.shyiko.mysql.binlog
             BinaryLogClient
             BinaryLogClient$EventListener
