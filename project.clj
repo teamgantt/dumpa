@@ -8,6 +8,7 @@
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [org.clojure/core.async "0.6.532"]
                  [org.clojure/tools.logging "0.3.1"]
+                 [ch.qos.logback/logback-classic "1.2.3"]
                  [mysql/mysql-connector-java "5.1.39"]
                  [org.clojure/java.jdbc "0.6.1"]
                  [prismatic/schema "1.0.5"]

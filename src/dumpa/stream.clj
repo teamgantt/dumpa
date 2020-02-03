@@ -9,8 +9,7 @@
             [dumpa.utils :as utils]
             [dumpa.row-format :as row-format]
             [dumpa.events :as events]
-            [dumpa.binlog :as binlog]
-            [dumpa.table-schema :as table-schema]))
+            [dumpa.binlog :as binlog]))
 
 (defn- preserving-reduced
   [rf]

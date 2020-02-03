@@ -1,17 +1,11 @@
 (ns dumpa.core
   "dumpa API for consuming MySQL database contents as streams of
   updates."
-  (:require [clojure.java.jdbc :as jdbc]
-            [clojure.core.async :as async :refer [chan >!!]]
+  (:require [clojure.core.async :as async :refer [chan]]
             [schema.core :as s]
-            [clojure.tools.logging :as log]
             [manifold.stream]
             [dumpa.query :as query]
-            [dumpa.table-schema :as table-schema]
-            [dumpa.events :as events]
-            [dumpa.stream :as stream]
-            [dumpa.binlog :as binlog]
-            [dumpa.row-format :as row-format]))
+            [dumpa.stream :as stream]))
 
 (def #^:private conn-param-defaults
   {:stream-keepalive-interval 60000
