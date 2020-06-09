@@ -347,6 +347,7 @@
   (let [db-spec            (:db-spec conf)
         db                 (get-in conf [:conn-params :db])
         id-fns             (:id-fns conf)
+        callbacks          (:callbacks conf)
         keepalive-interval (get-in conf [:conn-params :query-max-keepalive-interval])
         schema-cache       (atom {})
         events-xform       (comp
@@ -357,6 +358,7 @@
         started?           (atom false)
         stopped?           (atom false)
         client             (binlog/new-binlog-client (:conn-params conf)
+                                                     callbacks
                                                      binlog-pos
                                                      events-ch)]
 
