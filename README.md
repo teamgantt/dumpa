@@ -37,14 +37,12 @@ must be considered subject to change.
 
 Make sure your MySQL server is using UTC.
 
-[![Circle CI](https://circleci.com/gh/sharetribe/dumpa.svg?style=svg&circle-token=a9cd20bf7db48f10a908c9db0b0730131ea9b3fa)](https://circleci.com/gh/sharetribe/dumpa)
-
 ## Installation
 
 With Leiningen/Boot:
 
 ```clojure
-[com.teamgantt/dumpa "0.0.1"]
+[com.teamgantt/dumpa "0.0.3"]
 ```
 
 ### Initial load
@@ -117,6 +115,16 @@ true
 (dumpa/stop-stream! binlog-stream)
 true
 ```
+
+#### Event callbacks
+
+The underlying java library supports event listeners for various lifecycle events and when data is received. A map of callback functions can be passed as the second argument to `create-conf`.
+
+```clojure
+> (def conf (dumpa/create-conf conf {:on-connect (fn [_] (println "connected"!)})))
+```
+
+See the docstring for `create-conf` for more information on supported callbacks and the arguments they receive.
 
 ### Row format
 
