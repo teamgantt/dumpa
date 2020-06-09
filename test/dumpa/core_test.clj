@@ -137,14 +137,17 @@
     {:out (<!! (test-util/sink-to-coll (dumpa/source stream)))
      :binlog-pos (dumpa/next-position stream)}))
 
-(defn- create-and-start-stream [binlog-pos tables]
-  (let [{:keys [conn-params]} (test-util/config)
-        conf (dumpa/create-conf conn-params {})
-        stream (if (seq tables)
-                 (dumpa/create-binlog-stream conf binlog-pos #{:widgets :manufacturers})
-                 (dumpa/create-binlog-stream conf binlog-pos))]
-    (dumpa/start-stream! stream)
-    stream))
+(defn- create-and-start-stream
+  ([binlog-pos tables callbacks]
+   (let [{:keys [conn-params]} (test-util/config)
+         conf (dumpa/create-conf conn-params callbacks)
+         stream (if (seq tables)
+                  (dumpa/create-binlog-stream conf binlog-pos #{:widgets :manufacturers})
+                  (dumpa/create-binlog-stream conf binlog-pos))]
+     (dumpa/start-stream! stream)
+     stream))
+  ([binlog-pos tables]
+   (create-and-start-stream binlog-pos tables {})))
 
 (defn- stream-to-coll-and-close
   ([stream n] (stream-to-coll-and-close stream n 60000))
@@ -185,6 +188,31 @@
           stream-out               (stream-to-coll-and-close stream (count streamed))]
       (is (= (test-util/into-entity-map (concat initial streamed))
              (test-util/into-entity-map (concat out stream-out)))))))
+
+(defn- create-callbacks
+  [*state]
+  {:on-connect    (fn [_] (swap! *state update :on-connect inc))
+   :on-event      (fn [_ _] (swap! *state update :on-event inc))
+   :on-disconnect (fn [_] (swap! *state update :on-disconnect inc))})
+
+(deftest callbacks
+  (checking "Callbacks are executed if provided" (chuck/times 1)
+    [tables             (gen/elements [#{:widgets :manufacturers} nil #{}])
+     [initial streamed] (partition-2 gen-ops-sequence)]
+
+    (test-util/reset-test-db!)
+    (test-util/into-test-db! initial)
+    (let [*calls                   (atom {:on-connect 0 :on-event 0 :on-disconnect 0})
+          cbs                      (create-callbacks *calls)
+          {:keys [out binlog-pos]} (load-tables-to-coll [:widgets :manufacturers])
+          stream                   (create-and-start-stream binlog-pos tables cbs)
+          _                        (test-util/into-test-db! streamed)
+          stream-out               (stream-to-coll-and-close stream (count streamed))]
+      (is (= (test-util/into-entity-map (concat initial streamed))
+             (test-util/into-entity-map (concat out stream-out))))
+      (is (= 1 (:on-connect @*calls)))
+      (is (= 2 (:on-event @*calls)))
+      (is (= 1 (:on-disconnect @*calls))))))
 
 ;; Should be high enough to cause MySQL to split ops in binlog
 (def test-data-count 300)
@@ -235,5 +263,4 @@
     (test-util/into-test-db! ops)
     (test-util/into-entity-map ops))
 
-  (last (gen/sample (partition-2 gen-ops-sequence) 5))
-  )
+  (last (gen/sample (partition-2 gen-ops-sequence) 5)))

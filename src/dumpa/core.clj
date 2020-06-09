@@ -14,13 +14,14 @@
    :query-max-keepalive-interval 60000})
 
 (s/defschema ConfSchema
-  {:db-spec s/Any
-   :conn-params {:stream-keepalive-interval s/Int
-                 :stream-keepalive-timeout s/Int
-                 :initial-connection-timeout s/Int
+  {:db-spec     s/Any
+   :conn-params {:stream-keepalive-interval    s/Int
+                 :stream-keepalive-timeout     s/Int
+                 :initial-connection-timeout   s/Int
                  :query-max-keepalive-interval s/Int
-                 s/Keyword s/Any}
-   :id-fns {s/Keyword s/Any}})
+                 s/Keyword                     s/Any}
+   :callbacks   {s/Keyword s/Any}
+   :id-fns      {s/Keyword s/Any}})
 
 (defn- validate-conf [conf]
   (when-let [err (s/check ConfSchema conf)]
@@ -48,6 +49,15 @@
    failed attempts at loading schema info for a table. Backoff policy
    is exponentially increasing up to this max value. Defaults to 1
    minute.
+   
+  (optional) callbacks allow passing functions that are called for the BinaryLogClient's
+  LifeCycleListener and EventListener. The keys are as follows:
+  
+  :on-connect - Maps to BinaryLogClient$LifecycleListener.onConnect. Called with the event and BinaryLogClient
+  :on-communication-failure - Maps to BinaryLogClient$LifecycleListener.onCommunicationFailure. Called with the event, the BinaryLogClient, and the exception
+  :on-event-deserialization-failure - Maps to BinaryLogClient$LifecycleListener.onEventDeserializationFailure. Called with the event, the BinaryLogClient, and the exception
+  :on-disconnect - Maps to BinaryLogClient$LifecycleListener.onDisconnect. Called with the event and BinaryLogClient
+  :on-event - Maps to BinaryLogClient$EventListener.onEvent. Called with the event, payload, and BinaryLogClient.
 
   (optional) id-fns maps table name (key) to function (value) that
   returns the identifier value for that table row. Normally you'll be
@@ -62,10 +72,12 @@
   built from conn-params but it can be explicitly specified to use
   e.g. a connection pool."
   ([conn-params] (create-conf conn-params {} nil))
-  ([conn-params id-fns] (create-conf conn-params id-fns nil))
-  ([conn-params id-fns db-spec]
+  ([conn-params callbacks] (create-conf conn-params callbacks {} nil))
+  ([conn-params callbacks id-fns] (create-conf conn-params callbacks id-fns nil))
+  ([conn-params callbacks id-fns db-spec]
    {:db-spec     (or db-spec (query/db-spec conn-params))
     :conn-params (merge conn-param-defaults conn-params)
+    :callbacks   (or callbacks {})
     :id-fns      (or id-fns {})}))
 
 

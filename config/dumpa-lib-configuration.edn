@@ -9,7 +9,7 @@
                :user "${DB_USER:dumpa_test}"
                :password "${DB_PASSWORD:dumpa_test}"
                :host "127.0.0.1"
-               :port 3306
+               :port "${DB_PORT:3306}"
                :db "${DB:dumpa_test_db_123}"
                :server-id 123          ; Has to be unique within replication cluster
                :stream-keepalive-interval 10000
@@ -19,4 +19,4 @@
  :id-fns      {} ; {:table_no_primary_key :username}
  :tables      [] ; [:table_no_primary_key :another_table]
  :filter-tables #{}
- :test-db {:url "jdbc:mysql://localhost/${DB:dumpa_test_db_123}?useLegacyDatetimeCode=false&useSSL=false&user=${DB_USER:dumpa_test}&password=${DB_PASSWORD:dumpa_test}"}}
+ :test-db {:url "jdbc:mysql://localhost:${DB_PORT:3306}/${DB:dumpa_test_db_123}?useLegacyDatetimeCode=false&useSSL=false&user=${DB_USER:dumpa_test}&password=${DB_PASSWORD:dumpa_test}"}}
